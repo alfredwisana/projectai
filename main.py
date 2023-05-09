@@ -19,4 +19,6 @@ if __name__ == '__main__':
 
     # coba coba
 
+    print("Genetic Algorithm")
+
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

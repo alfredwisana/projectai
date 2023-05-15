@@ -81,11 +81,11 @@ def crossover(parent1,parent2):
 
 parent = generate_parent(mesin2)
 print(parent)
-print(count_fitness_point(parent,point))
+print(count_fitness_point(parent,point,max_Mwatt_off))
 
 parent2 = generate_parent(mesin2_pt2)
 print(parent2)
-print(count_fitness_point(parent2,point))
+print(count_fitness_point(parent2,point,max_Mwatt_off))
 
 c1,c2 = crossover(parent,parent2)
 print(c1)

@@ -7,11 +7,15 @@ mesin2_pt2 = copy.deepcopy(mesin2)
 parent = []
 parent2 = []
 unique = set(mesin2)
+total_Mwatt = 0
 # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
 point = {}
 for i in unique:
     point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
+    total_Mwatt+=point[i]
 
+minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+max_Mwatt_off = total_Mwatt-minimum_Mwatt
 
 #generate chromosome ultimate super mega no limit terserah panjang brp
 def generate_parent(mesin):
@@ -56,14 +60,14 @@ def generate_parent(mesin):
 
     return first_half
 
-def count_fitness_point(chromosome,point):
+def count_fitness_point(chromosome,point,max_Mwatt_off):
     fitness_point = 0
     for i in chromosome:
         child_fitness_point = 0
         for j in i:
             child_fitness_point+=point[j]
-        if child_fitness_point > 50:
-            fitness_point+=(child_fitness_point-50)
+        if child_fitness_point > max_Mwatt_off:
+            fitness_point+=(child_fitness_point-max_Mwatt_off)
     return fitness_point
 
 def crossover(parent1,parent2):

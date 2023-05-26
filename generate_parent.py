@@ -79,9 +79,53 @@ def crossover(parent1,parent2):
 # parent = generate_parent(mesin1)
 # print(parent)
 
+def mutation(chromosome):
+    chromosome_pt1 = copy.deepcopy(chromosome[0:6])
+    chromosome_pt2 = copy.deepcopy(chromosome[6:12])
+    maxLength = max(map(len, chromosome))
+    temp = []
+    counter = 0
+    for i in chromosome_pt1:
+        if len(i) == maxLength:
+            temp.append(i.pop())
+    while temp:
+        gen = int(np.random.choice(temp, size=1))
+        infinite_loop_handling = 0
+        while gen in chromosome_pt1[counter%6]:
+            gen = int(np.random.choice(temp, size=1))
+            infinite_loop_handling += 1
+            if infinite_loop_handling > 5:
+                counter += 1
+        chromosome_pt1[counter % 6].append(gen)
+        counter+=1
+        temp.remove(gen)
+
+    counter = 0
+
+    for i in chromosome_pt2:
+        if len(i) == maxLength:
+            temp.append(i.pop())
+    while temp:
+        gen = int(np.random.choice(temp, size=1))
+        infinite_loop_handling = 0
+        while gen in chromosome_pt2[counter % 6]:
+            gen = int(np.random.choice(temp, size=1))
+            infinite_loop_handling += 1
+            if infinite_loop_handling > 5:
+                counter += 1
+        chromosome_pt2[counter % 6].append(gen)
+        counter += 1
+        temp.remove(gen)
+
+    chromosome_pt1 = chromosome_pt1 + chromosome_pt2
+    return chromosome_pt1
+
+
 parent = generate_parent(mesin2)
 print(parent)
 print(count_fitness_point(parent,point,max_Mwatt_off))
+
+print("mutasi",mutation(parent),"\n")
 
 parent2 = generate_parent(mesin2_pt2)
 print(parent2)

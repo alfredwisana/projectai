@@ -125,7 +125,7 @@ parent = generate_parent(mesin2)
 print(parent)
 print(count_fitness_point(parent,point,max_Mwatt_off))
 
-print("mutasi",mutation(parent),"\n")
+print("mutasi test",mutation(parent),"\n")
 
 parent2 = generate_parent(mesin2_pt2)
 print(parent2)

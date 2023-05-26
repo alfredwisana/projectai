@@ -1,9 +1,10 @@
 import numpy as np
 import copy
+import heapq
 
 mesin1 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 7, 12, 13] #buat ngetes generate aja
 mesin2 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7]
-mesin2_pt2 = copy.deepcopy(mesin2)
+
 parent = []
 parent2 = []
 unique = set(mesin2)
@@ -120,18 +121,33 @@ def mutation(chromosome):
     chromosome_pt1 = chromosome_pt1 + chromosome_pt2
     return chromosome_pt1
 
+class population:
+    def __init__(self):
+        self.heap = []
+        heapq.heapify(self.heap)
 
-parent = generate_parent(mesin2)
-print(parent)
-print(count_fitness_point(parent,point,max_Mwatt_off))
+    def add(self,fitness_point,chromosome):
+        data = (fitness_point,chromosome)
+        heapq.heappush(self.heap,data)
+    def kick(self):
+        value = heapq.heappop(self.heap)
+        print("kicked ",value)
 
-print("mutasi test",mutation(parent),"\n")
 
-parent2 = generate_parent(mesin2_pt2)
-print(parent2)
-print(count_fitness_point(parent2,point,max_Mwatt_off))
+pop =population()
+for i in range(100):
+    mesin2_pt2 = copy.deepcopy(mesin2)
+    parent = generate_parent(mesin2_pt2)
+    if parent not in pop.heap:
+        pop.add(count_fitness_point(parent,point,max_Mwatt_off),parent)
+        print(parent)
+        print(count_fitness_point(parent,point,max_Mwatt_off))
 
-c1,c2 = crossover(parent,parent2)
-print(c1)
-print(c2)
+# parent2 = generate_parent(mesin2_pt2)
+# print(parent2)
+# print(count_fitness_point(parent2,point,max_Mwatt_off))
+#
+# c1,c2 = crossover(parent,parent2)
+# print(c1)
+# print(c2)
 

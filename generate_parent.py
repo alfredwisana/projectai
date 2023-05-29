@@ -1,6 +1,6 @@
 import numpy as np
 import copy
-import heapq
+import heapq_max
 
 mesin1 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 7, 12, 13] #buat ngetes generate aja
 mesin2 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7]
@@ -124,14 +124,14 @@ def mutation(chromosome):
 class population:
     def __init__(self):
         self.heap = []
-        heapq.heapify(self.heap)
+        heapq_max.heapify_max(self.heap)
 
     def add(self,fitness_point,chromosome):
         data = (fitness_point,chromosome)
-        heapq.heappush(self.heap,data)
+        heapq_max.heappush_max(self.heap,data)
     def kick(self):
-        value = heapq.heappop(self.heap)
-        print("kicked ",value)
+        value = heapq_max.heappop_max(self.heap)
+        return value
 
 
 pop =population()
@@ -142,6 +142,8 @@ for i in range(100):
         pop.add(count_fitness_point(parent,point,max_Mwatt_off),parent)
         print(parent)
         print(count_fitness_point(parent,point,max_Mwatt_off))
+
+print(pop.kick())
 
 # parent2 = generate_parent(mesin2_pt2)
 # print(parent2)

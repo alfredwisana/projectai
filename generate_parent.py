@@ -146,6 +146,11 @@ class population:
         value = heapq_max.heappop_max(self.heap)
         return value
 
+    def peek_fit(self):
+        val = heapq_max.heappop_max(self.heap)
+        heapq_max.heappush_max(self.heap,val)
+        return val[0]
+
 def roulette_wheel_selection(pop):
     total_fitness = 0
     for i in pop.heap:
@@ -157,6 +162,7 @@ def roulette_wheel_selection(pop):
     for i in pop.heap:
         cumulative_fitness += i[0]
         if r <= cumulative_fitness:
+            pop.heap.remove(i)
             return i
 
 if __name__ == '__main__':
@@ -173,9 +179,12 @@ if __name__ == '__main__':
     print("populasi awal")
     for i in pop.heap:
         print(i)
-    for i in range(999):
+
+    for i in range(len(unique)*100):
         parent1 = roulette_wheel_selection(pop)
         parent2 = roulette_wheel_selection(pop)
+        pop.add(parent1[0],parent1[1])
+        pop.add(parent2[0], parent2[1])
         # while parent1 == parent2:
         #     parent1 = roulette_wheel_selection(pop)
         #     parent2 = roulette_wheel_selection(pop)
@@ -186,10 +195,15 @@ if __name__ == '__main__':
         pop.add(count_fitness_point(c2,point,max_Mwatt_off),c2)
         while len(pop.heap) > 10:
             pop.kick()
+        print("\niterasi ke ",i)
+        for j in pop.heap:
+            print(j)
 
     print("hasil akhir")
-    for i in pop.heap:
-        print(i)
+    while pop.heap:
+        val = pop.kick()
+        if val[0] == 0:
+            print(val)
 
     # mesin2_pt2 = copy.deepcopy(mesin2)
     # parent2 = generate_parent(mesin2_pt2)

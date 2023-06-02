@@ -1,5 +1,3 @@
-import random
-
 import numpy as np
 import copy
 import heapq_max
@@ -79,15 +77,8 @@ def crossover(parent1,parent2):
     c1 = copy_parent1[0:6]+copy_parent2[6:12]
     c2 = copy_parent2[0:6]+copy_parent1[6:12]
     return c1,c2
-
-# gajadi pake
-# def mutation_rate(chromosome):
-#     mutation_rate = 0.2
-#     random_value = random.random()
-#     if random_value <= mutation_rate:
-#         mutation(chromosome)
-#     if random_value > mutation_rate:
-#         return chromosome
+# parent = generate_parent(mesin1)
+# print(parent)
 
 def mutation(chromosome):
     chromosome_pt1 = copy.deepcopy(chromosome[0:6])
@@ -95,40 +86,37 @@ def mutation(chromosome):
     maxLength = max(map(len, chromosome))
     temp = []
     counter = 0
-    mutation_rate = 0.2
-    random_value = random.random()
-    if random_value <= mutation_rate:
-        for i in chromosome_pt1:
-            if len(i) == maxLength:
-                temp.append(i.pop())
-        while temp:
+    for i in chromosome_pt1:
+        if len(i) == maxLength:
+            temp.append(i.pop())
+    while temp:
+        gen = int(np.random.choice(temp, size=1))
+        infinite_loop_handling = 0
+        while gen in chromosome_pt1[counter%6]:
             gen = int(np.random.choice(temp, size=1))
-            infinite_loop_handling = 0
-            while gen in chromosome_pt1[counter%6]:
-                gen = int(np.random.choice(temp, size=1))
-                infinite_loop_handling += 1
-                if infinite_loop_handling > 5:
-                    counter += 1
-            chromosome_pt1[counter % 6].append(gen)
-            counter+=1
-            temp.remove(gen)
+            infinite_loop_handling += 1
+            if infinite_loop_handling > 5:
+                counter += 1
+        chromosome_pt1[counter % 6].append(gen)
+        counter+=1
+        temp.remove(gen)
 
-        counter = 0
+    counter = 0
 
-        for i in chromosome_pt2:
-            if len(i) == maxLength:
-                temp.append(i.pop())
-        while temp:
+    for i in chromosome_pt2:
+        if len(i) == maxLength:
+            temp.append(i.pop())
+    while temp:
+        gen = int(np.random.choice(temp, size=1))
+        infinite_loop_handling = 0
+        while gen in chromosome_pt2[counter % 6]:
             gen = int(np.random.choice(temp, size=1))
-            infinite_loop_handling = 0
-            while gen in chromosome_pt2[counter % 6]:
-                gen = int(np.random.choice(temp, size=1))
-                infinite_loop_handling += 1
-                if infinite_loop_handling > 5:
-                    counter += 1
-            chromosome_pt2[counter % 6].append(gen)
-            counter += 1
-            temp.remove(gen)
+            infinite_loop_handling += 1
+            if infinite_loop_handling > 5:
+                counter += 1
+        chromosome_pt2[counter % 6].append(gen)
+        counter += 1
+        temp.remove(gen)
 
     chromosome_pt1 = chromosome_pt1 + chromosome_pt2
     return chromosome_pt1
@@ -140,78 +128,28 @@ class population:
 
     def add(self,fitness_point,chromosome):
         data = (fitness_point,chromosome)
-        if data not in self.heap:
-            heapq_max.heappush_max(self.heap,data)
+        heapq_max.heappush_max(self.heap,data)
     def kick(self):
         value = heapq_max.heappop_max(self.heap)
         return value
 
-    def peek_fit(self):
-        val = heapq_max.heappop_max(self.heap)
-        heapq_max.heappush_max(self.heap,val)
-        return val[0]
 
-def roulette_wheel_selection(pop):
-    total_fitness = 0
-    for i in pop.heap:
-        total_fitness+=i[0]
+pop =population()
+for i in range(100):
+    mesin2_pt2 = copy.deepcopy(mesin2)
+    parent = generate_parent(mesin2_pt2)
+    if parent not in pop.heap:
+        pop.add(count_fitness_point(parent,point,max_Mwatt_off),parent)
+        print(parent)
+        print(count_fitness_point(parent,point,max_Mwatt_off))
 
-    r = random.randint(0,total_fitness)
+print(pop.kick())
 
-    cumulative_fitness = 0
-    for i in pop.heap:
-        cumulative_fitness += i[0]
-        if r <= cumulative_fitness:
-            pop.heap.remove(i)
-            return i
-
-if __name__ == '__main__':
-
-    pop = population()
-    for i in range(10):
-        mesin2_pt2 = copy.deepcopy(mesin2)
-        parent = generate_parent(mesin2_pt2)
-        if (count_fitness_point(parent,point,max_Mwatt_off),parent) not in pop.heap:
-            pop.add(count_fitness_point(parent,point,max_Mwatt_off),parent)
-            # print(parent)
-            # print(count_fitness_point(parent,point,max_Mwatt_off))
-
-    print("populasi awal")
-    for i in pop.heap:
-        print(i)
-
-    for i in range(len(unique)*100):
-        parent1 = roulette_wheel_selection(pop)
-        parent2 = roulette_wheel_selection(pop)
-        pop.add(parent1[0],parent1[1])
-        pop.add(parent2[0], parent2[1])
-        # while parent1 == parent2:
-        #     parent1 = roulette_wheel_selection(pop)
-        #     parent2 = roulette_wheel_selection(pop)
-        c1,c2 = crossover(parent1[1],parent2[1])
-        c1 = mutation(c1)
-        c2 = mutation(c2)
-        pop.add(count_fitness_point(c1,point,max_Mwatt_off),c1)
-        pop.add(count_fitness_point(c2,point,max_Mwatt_off),c2)
-        while len(pop.heap) > 10:
-            pop.kick()
-        print("\niterasi ke ",i)
-        for j in pop.heap:
-            print(j)
-
-    print("hasil akhir")
-    while pop.heap:
-        val = pop.kick()
-        if val[0] == 0:
-            print(val)
-
-    # mesin2_pt2 = copy.deepcopy(mesin2)
-    # parent2 = generate_parent(mesin2_pt2)
-    # print(parent2)
-    # print(count_fitness_point(parent2,point,max_Mwatt_off))
-    #
-    # c1,c2 = crossover(parent,parent2)
-    #
-    # print(c1)
-    # print(c2)
+# parent2 = generate_parent(mesin2_pt2)
+# print(parent2)
+# print(count_fitness_point(parent2,point,max_Mwatt_off))
+#
+# c1,c2 = crossover(parent,parent2)
+# print(c1)
+# print(c2)
 

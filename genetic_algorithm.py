@@ -177,6 +177,7 @@ if __name__ == '__main__':
     check = False
     if minimum_Mwatt >= total_Mwatt:
         while check == False:
+            print("Jumlah Listrik minimum melibihi total jumlah listrik")
             minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
             if minimum_Mwatt >= total_Mwatt:
                 continue

@@ -1,24 +1,7 @@
 import random
-
 import numpy as np
 import copy
 import heapq_max
-
-mesin1 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 7, 12, 13] #buat ngetes generate aja
-mesin2 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7]
-
-parent = []
-parent2 = []
-unique = set(mesin2)
-total_Mwatt = 0
-# point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
-point = {}
-for i in unique:
-    point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
-    total_Mwatt+=point[i]
-
-minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
-max_Mwatt_off = total_Mwatt-minimum_Mwatt
 
 #generate chromosome ultimate super mega no limit terserah panjang brp
 def generate_parent(mesin):
@@ -165,7 +148,32 @@ def roulette_wheel_selection(pop):
             pop.heap.remove(i)
             return i
 
+# driver code
 if __name__ == '__main__':
+
+    mesin2=[]
+    jumlah_mesin=int(input("Masukan Jumlah Mesin : "))
+    for i in range (jumlah_mesin):
+        jumlah_maintenance=int(input("masukkan Berapa kali mesin  " + str(i+1) + " diperbaiki : "))
+        for j in range (jumlah_maintenance):
+            mesin2.append(i+1)
+
+    print(mesin2)
+    # mesin1 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 7, 12, 13]  # buat ngetes generate aja
+    # mesin2 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7]
+
+    parent = []
+    parent2 = []
+    unique = set(mesin2)
+    total_Mwatt = 0
+    # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
+    point = {}
+    for i in unique:
+        point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
+        total_Mwatt += point[i]
+
+    minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+    max_Mwatt_off = total_Mwatt - minimum_Mwatt
 
     pop = population()
     for i in range(10):

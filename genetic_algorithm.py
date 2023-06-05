@@ -174,6 +174,15 @@ if __name__ == '__main__':
 
     print("Total Listrik yang dapat dihasilkan : %d"%total_Mwatt)
     minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+    check = False
+    if minimum_Mwatt >= total_Mwatt:
+        while check == False:
+            minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+            if minimum_Mwatt >= total_Mwatt:
+                continue
+            else:
+                check = True
+
     max_Mwatt_off = total_Mwatt - minimum_Mwatt
 
     print("Listrik Maksimal Mati: %d"%max_Mwatt_off)

@@ -172,8 +172,11 @@ if __name__ == '__main__':
         point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
         total_Mwatt += point[i]
 
+    print("Total Listrik yang dapat dihasilkan : %d"%total_Mwatt)
     minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
     max_Mwatt_off = total_Mwatt - minimum_Mwatt
+
+    print("Listrik Maksimal Mati: %d"%max_Mwatt_off)
 
     pop = population()
     for i in range(10):
@@ -188,7 +191,7 @@ if __name__ == '__main__':
     for i in pop.heap:
         print(i)
 
-    for i in range(len(unique)*100):
+    for i in range(len(unique)*10):
         parent1 = roulette_wheel_selection(pop)
         parent2 = roulette_wheel_selection(pop)
         pop.add(parent1[0],parent1[1])
@@ -207,7 +210,9 @@ if __name__ == '__main__':
         for j in pop.heap:
             print(j)
 
-    print("hasil akhir")
+
+    print("\nhasil akhir")
+
     while pop.heap:
         val = pop.kick()
         if val[0] == 0:

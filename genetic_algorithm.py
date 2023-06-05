@@ -9,6 +9,7 @@ def generate_parent(mesin):
     first_half = []
     second_half = []
     counter = 0
+    bool = True
     while len(mesin) != 0:
         gen = int(np.random.choice(mesin, size=1))
         if counter>=6:
@@ -21,9 +22,16 @@ def generate_parent(mesin):
             first_half[counter%6].append(gen)
 
         else :
+            if len(mesin)<6:
+                if bool:
+                    bool = False
+                    for i in range(6-len(mesin)):
+                        first_half.append([])
             first_half.append([gen])
         mesin.remove(gen)
         counter = counter + 1
+
+    bool = True
 
     counter = 0
     while len(mesinpt2) != 0:
@@ -38,6 +46,11 @@ def generate_parent(mesin):
             second_half[counter%6].append(gen)
 
         else :
+            if len(mesinpt2) < 6:
+                if bool:
+                    bool = False
+                    for i in range(6 - len(mesinpt2)):
+                        second_half.append([])
             second_half.append([gen])
         mesinpt2.remove(gen)
         counter = counter + 1
@@ -188,7 +201,7 @@ if __name__ == '__main__':
     for i in pop.heap:
         print(i)
 
-    for i in range(len(unique)*100):
+    for i in range(len(unique)*10):
         parent1 = roulette_wheel_selection(pop)
         parent2 = roulette_wheel_selection(pop)
         pop.add(parent1[0],parent1[1])

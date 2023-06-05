@@ -5,6 +5,7 @@ import heapq_max
 
 #generate chromosome ultimate super mega no limit terserah panjang brp
 def generate_parent(mesin):
+    jmlh_maintenance = len(mesin)
     mesinpt2 = copy.deepcopy(mesin)
     first_half = []
     second_half = []
@@ -22,10 +23,10 @@ def generate_parent(mesin):
             first_half[counter%6].append(gen)
 
         else :
-            if len(mesin)<6:
+            if jmlh_maintenance<6:
                 if bool:
                     bool = False
-                    for i in range(6-len(mesin)):
+                    for i in range(6-jmlh_maintenance):
                         first_half.append([])
             first_half.append([gen])
         mesin.remove(gen)
@@ -46,10 +47,10 @@ def generate_parent(mesin):
             second_half[counter%6].append(gen)
 
         else :
-            if len(mesinpt2) < 6:
+            if jmlh_maintenance < 6:
                 if bool:
                     bool = False
-                    for i in range(6 - len(mesinpt2)):
+                    for i in range(6 - jmlh_maintenance):
                         second_half.append([])
             second_half.append([gen])
         mesinpt2.remove(gen)

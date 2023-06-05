@@ -5,7 +5,7 @@ c14210159 - Adi Chandra Wijaya
 c14210177 - Alfred Wisana
 c14210xxx - Caitlin Liadi
 c14210xxx - Zelvin Laurencia
-
+c14210189 - Theodorus Jasson Kusumo
 
 Generate chromosome (Joshua)
 Crossover (Adi)

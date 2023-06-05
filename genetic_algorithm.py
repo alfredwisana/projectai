@@ -143,10 +143,10 @@ class population:
         value = heapq_max.heappop_max(self.heap)
         return value
 
-    def peek_fit(self):
-        val = heapq_max.heappop_max(self.heap)
-        heapq_max.heappush_max(self.heap,val)
-        return val[0]
+    # def peek_fit(self):
+    #     val = heapq_max.heappop_max(self.heap)
+    #     heapq_max.heappush_max(self.heap,val)
+    #     return val[0]
 
 def roulette_wheel_selection(pop):
     total_fitness = 0

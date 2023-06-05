@@ -185,8 +185,21 @@ if __name__ == '__main__':
         point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
         total_Mwatt += point[i]
 
+    print("Total Listrik yang dapat dihasilkan : %d"%total_Mwatt)
     minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+    check = False
+    if minimum_Mwatt >= total_Mwatt:
+        while check == False:
+            print("Jumlah Listrik minimum melibihi total jumlah listrik")
+            minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+            if minimum_Mwatt >= total_Mwatt:
+                continue
+            else:
+                check = True
+
     max_Mwatt_off = total_Mwatt - minimum_Mwatt
+
+    print("Listrik Maksimal Mati: %d"%max_Mwatt_off)
 
     pop = population()
     for i in range(10):
@@ -220,7 +233,9 @@ if __name__ == '__main__':
         for j in pop.heap:
             print(j)
 
-    print("hasil akhir")
+
+    print("\nhasil akhir")
+
     while pop.heap:
         val = pop.kick()
         if val[0] == 0:

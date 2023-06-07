@@ -231,6 +231,60 @@ def inputWattMaintenanceScreen(screen):
         screen.blit(masukkanNMinMaintenance, (220,212))
         pygame.display.update()
 
+def inputNMinWattScreen(screen):
+    SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
+    pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
+    WHITE = (255, 255, 255)
+    # Load image
+    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    bg_width = bg.get_width()
+    bg_rect = bg.get_rect()
+    masukkanNWattDibutuhkan = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNWattDibutuhkan.png'), (700,100))
+    #Input box properties
+    input_box = pygame.Rect(200, 200, 300, 40)
+    input_text = ""
+    font = pygame.font.Font(None, 32)
+    active = False
+    # Scrolling background
+    scroll = 0
+    tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
+    run = True
+    while run:
+        for i in range(0, tiles):
+            screen.blit(bg, (i * bg_width + scroll, 0))
+            bg_rect.x = i * bg_width + scroll
+            pygame.draw.rect(screen, (0, 0, 0), bg_rect, 1)
+            scroll -= 1
+            if abs(scroll) > bg_width:
+                scroll = 0
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if input_box.collidepoint(event.pos):
+                    active = not active
+                else:
+                    active = False
+            elif event.type == pygame.KEYDOWN:
+                if active:
+                    if event.key == pygame.K_RETURN:
+                        print(input_text)
+                        input_text = ""
+                    elif event.key == pygame.K_BACKSPACE:
+                        input_text = input_text[:-1]
+                    else:
+                        input_text += event.unicode
+        # Draw the input box
+        pygame.draw.rect(screen, WHITE, input_box, 2)
+        # Render the input text
+        text_surface = font.render(input_text, True, WHITE)
+        screen.blit(text_surface, (input_box.x + 5, input_box.y + 10))
+        
+        screen.blit(masukkanNWattDibutuhkan, (200,100))
+        pygame.display.update()
+
 
 def mutasiScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -358,5 +412,5 @@ def hasilScreen(screen):
 
         pygame.display.update()
 
-hasilScreen(screen)
+inputNMinWattScreen(screen)
 pygame.quit()

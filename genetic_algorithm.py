@@ -163,11 +163,16 @@ def roulette_wheel_selection(pop):
             return i
 
 # driver code
-if __name__ == '__main__':
+def main(jumlah:int):
 
     mesin2=[]
-    jumlah_mesin=int(input("Masukan Jumlah Mesin : "))
+    jumlah_mesin = jumlah
+    print("\n")
+    print(jumlah)
+    print("\n")
+    # jumlah_mesin=int(input("Masukan Jumlah Mesin : "))
     for i in range (jumlah_mesin):
+        jumlah_maintenance = 0
         jumlah_maintenance=int(input("masukkan Berapa kali mesin  " + str(i+1) + " diperbaiki : "))
         for j in range (jumlah_maintenance):
             mesin2.append(i+1)
@@ -183,7 +188,8 @@ if __name__ == '__main__':
     # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
     point = {}
     for i in unique:
-        point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
+        
+        # point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
         total_Mwatt += point[i]
 
     print("Total Listrik yang dapat dihasilkan : %d"%total_Mwatt)

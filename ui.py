@@ -1,9 +1,8 @@
 import pygame
 import math
-# import generate_parent
-# import genetic_algotithm
-
-
+import genetic_algorithm as ga
+# import generate_parent as GP
+# import genetic_gaalgorithm as GA
 pygame.init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -30,7 +29,6 @@ class ButtonImage(object):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
-
 
 def startScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -60,17 +58,15 @@ def startScreen(screen):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start.is_clicked(event):
                     inputNMesinScreen(screen)
-
+        
         pos = pygame.mouse.get_pos()
-
         if pos[0] >= 50 and pos[0] <= 250 and pos[1] >= 150 and pos[1] <= 210:
             start.hover(screen)
         else:
             start.draw(screen)
 
-        pygame.display.update()
-
-
+        pygame.display.update
+        
 def inputNMesinScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
@@ -81,13 +77,14 @@ def inputNMesinScreen(screen):
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
     masukkanNMesin = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNMesin.png'), (700,100))
+    finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish2.png', 'projectai/assets/finish1.png')
     #Input box properties
     input_box = pygame.Rect(200, 200, 300, 40)
     input_text = ""
     font = pygame.font.Font(None, 32)
-    active = False
     # Scrolling background
     scroll = 0
+    
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
     run = True
     while run:
@@ -102,27 +99,37 @@ def inputNMesinScreen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if input_box.collidepoint(event.pos):
-                    active = not active
-                else:
-                    active = False
             elif event.type == pygame.KEYDOWN:
-                if active:
-                    if event.key == pygame.K_RETURN:
-                        print(input_text)
-                        input_text = ""
-                    elif event.key == pygame.K_BACKSPACE:
-                        input_text = input_text[:-1]
-                    else:
+                if event.type == pygame.K_RETURN:
+                    print(input_text)
+                    input_text = "" 
+                    # ini apa |
+                elif event.key == pygame.K_BACKSPACE:
+                    input_text = input_text[:-1]
+                else:
+                    if event.unicode.isnumeric():  
                         input_text += event.unicode
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if finish.is_clicked(event):
+                        # print("klik")
+                        ga.main(int(input_text))
+                        inputWattMaintenanceScreen(screen)
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
         # Render the input text
         text_surface = font.render(input_text, True, WHITE)
         screen.blit(text_surface, (input_box.x + 5, input_box.y + 10))
-        
+
         screen.blit(masukkanNMesin, (200,100))
+        # ga.main(int(input_text))
+        pos = pygame.mouse.get_pos()
+        if pos[0] >= 360 and pos[0] <= 560 and pos[1] >= 360 and pos[1] <= 420:
+            # ga.main(int(input_text)) hmm keknyadia harus dijalankan ulang pencet ctrl + alt + del pilih manager tugas atau task manager
+            finish.hover(screen)
+        else:
+            finish.draw(screen)
+            # karna itu mainnya sabar 
+
         pygame.display.update()
 
 def inputWattMaintenanceScreen(screen):
@@ -134,26 +141,24 @@ def inputWattMaintenanceScreen(screen):
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
-    #Input box properties
-        # kotak atas atau kotak pertama
-    input_box1 = pygame.Rect(310, SCREEN_HEIGHT/4, 300, 40)
 
-        # kotak bawah atau kotak kedua
-    input_box2 = pygame.Rect(310, SCREEN_HEIGHT/2, 300, 40)
+    WHITE = (255, 255, 255)
+    BLACK = (0,0,0)
+    FONT = pygame.font.Font(None, 32)
+    #Input box properties 
+    input_box1 = pygame.Rect(310, SCREEN_HEIGHT/4, 300, 40) #kotak pertama
+    input_box2 = pygame.Rect(310, SCREEN_HEIGHT/2, 300, 40) #kotak kedua
 
-    input_text = ""
+    text1 = ""
+    text2 = ""
 
-    # untuk kotak pertama
-    # input_text1 = ""
+    active_input = None
+
     font = pygame.font.Font(None, 32)
-    active = False
-    # active2 = False
     # Scrolling background
     scroll = 0
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
     run = True
-    run1 = True
-
     while run:
         for i in range(0, tiles):
             screen.blit(bg, (i * bg_width + scroll, 0))
@@ -162,63 +167,50 @@ def inputWattMaintenanceScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish2.png', 'projectai/assets/finish1.png')
-        inputNMesin = pygame.transform.scale(pygame.image.load('projectai/assets/inputFrame1.png'), (550,400))
+        finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish1.png', 'projectai/assets/finish2.png')
+        inputNMesin = pygame.transform.scale(pygame.image.load('projectai/assets/inputFrame.png'), (550,400))
         masukkanNWattMesin = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNWattMesin.png'), (500,80))
         masukkanNMinMaintenance = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNMinMaintenance.png'), (500,80))
-        # inputFrame = ButtonImage((190, 80), (550, 400), 'projectai/assets/inputFrame1.png', 'projectai/assets/inputFrame2.png')
+        # inputFrame = ButtonImage((190, 80), (550, 400), 'assets/inputFrame1.png', 'assets/inputFrame2.png')
 
-        # kotak pertama
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                elif active_input:
+                    if event.key == pygame.K_RETURN:
+                        active_input = None
+                    elif event.key == pygame.K_BACKSPACE:
+                        if active_input == input_box1:
+                            text1 = text1[:-1]
+                        elif active_input == input_box2:
+                            text2 = text2[:-1]
+                    else:
+                        if active_input == input_box1:
+                            text1 += event.unicode
+                        elif active_input == input_box2:
+                            text2 += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if input_box1.collidepoint(event.pos):
-                    active = not active
+                    active_input = input_box1
+                elif input_box2.collidepoint(event.pos):
+                    active_input = input_box2
                 else:
-                    active = False
-            elif event.type == pygame.KEYDOWN:
-                if active:
-                    if event.key == pygame.K_RETURN:
-                        print(input_text)
-                        input_text = ""
-                    elif event.key == pygame.K_BACKSPACE:
-                        input_text = input_text[:-1]
-                    else:
-                        input_text += event.unicode
-        
-            #  kotak kedua
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if input_box2.collidepoint(event.pos):
-                    active = not active
-                else:
-                    active = False
-            elif event.type == pygame.KEYDOWN:
-                if active:
-                    if event.key == pygame.K_RETURN:
-                        print(input_text1)
-                        input_text1 = ""
-                    elif event.key == pygame.K_BACKSPACE:
-                        input_text1 = input_text1[:-1]
-                    else:
-                        input_text1 += event.unicode
-    
-        # Draw the input box
-        pygame.draw.rect(screen, WHITE, input_box1, 2)
+                    active_input = None
 
-        # kotak kedua
+
+        pygame.draw.rect(screen, WHITE, input_box1, 2)
         pygame.draw.rect(screen, WHITE, input_box2, 2)
 
-        # Render the input text
-        text_surface = font.render(input_text, True, WHITE)
-        text_surface1 = font.render(input_text1, True, WHITE)
+        input_text1 = FONT.render(text1, True, WHITE)
+        input_text2 = FONT.render(text2, True, WHITE)
 
-        screen.blit(text_surface, (input_box1.x + 5, input_box1.y + 10))
-        screen.blit(text_surface1, (input_box2.x + 5, input_box2.y + 10))
-        
+        screen.blit(input_text1, (input_box1.x + 5, input_box1.y + 5))
+        screen.blit(input_text2, (input_box2.x + 5, input_box2.y + 5))
+            
+        # pygame.display.flip()
 
         pos = pygame.mouse.get_pos()
         # print(pos)
@@ -229,6 +221,7 @@ def inputWattMaintenanceScreen(screen):
         screen.blit(inputNMesin, (190,80))
         screen.blit(masukkanNWattMesin, (220,80))
         screen.blit(masukkanNMinMaintenance, (220,212))
+        
         pygame.display.update()
 
 def inputNMinWattScreen(screen):
@@ -262,19 +255,15 @@ def inputNMinWattScreen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if input_box.collidepoint(event.pos):
-                    active = not active
-                else:
-                    active = False
             elif event.type == pygame.KEYDOWN:
-                if active:
-                    if event.key == pygame.K_RETURN:
-                        print(input_text)
-                        input_text = ""
-                    elif event.key == pygame.K_BACKSPACE:
-                        input_text = input_text[:-1]
-                    else:
+                if event.key == pygame.K_RETURN:
+                    print(input_text)
+                    input_text = ""
+                elif event.key == pygame.K_BACKSPACE:
+                    input_text = input_text[:-1]
+                #biar cuma bisa input angka
+                else:
+                    if event.unicode.isnumeric():  
                         input_text += event.unicode
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
@@ -284,7 +273,6 @@ def inputNMinWattScreen(screen):
         
         screen.blit(masukkanNWattDibutuhkan, (200,100))
         pygame.display.update()
-
 
 def mutasiScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -412,5 +400,5 @@ def hasilScreen(screen):
 
         pygame.display.update()
 
-inputNMinWattScreen(screen)
+inputWattMaintenanceScreen(screen)
 pygame.quit()

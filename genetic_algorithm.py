@@ -163,19 +163,28 @@ def roulette_wheel_selection(pop):
             return i
 
 # driver code
-def main(jumlah:int):
+jumlah = 0
+min_maintenance =[]
+jumlah_watt = []
+min_watt = 0
 
+def printJumlah():
+    print("\n")
+    print(jumlah)
+    print("\n")
+
+def main():
     mesin2=[]
     jumlah_mesin = jumlah
     print("\n")
     print(jumlah)
     print("\n")
+    jumlah_maintenance = min_maintenance
     # jumlah_mesin=int(input("Masukan Jumlah Mesin : "))
     for i in range (jumlah_mesin):
-        jumlah_maintenance = 0
-        jumlah_maintenance=int(input("masukkan Berapa kali mesin  " + str(i+1) + " diperbaiki : "))
-        for j in range (jumlah_maintenance):
-            mesin2.append(i+1)
+        # jumlah_maintenance=int(input("masukkan Berapa kali mesin  " + str(i+1) + " diperbaiki : "))
+        for j in range (jumlah_maintenance[i]):
+             mesin2.append(i+1)
 
     print(mesin2)
     # mesin1 = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 7, 8, 8, 9, 9, 9, 7, 12, 13]  # buat ngetes generate aja
@@ -188,17 +197,18 @@ def main(jumlah:int):
     # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
     point = {}
     for i in unique:
-        
         # point[i] = int(input("masukkan listrik dalam generator " + str(i) + ": "))
+        point[i] = jumlah_watt[i-1]
         total_Mwatt += point[i]
 
     print("Total Listrik yang dapat dihasilkan : %d"%total_Mwatt)
-    minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+    minimum_Mwatt =  min_watt
+    # minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
     check = False
     if minimum_Mwatt >= total_Mwatt:
         while check == False:
             print("Jumlah Listrik minimum melibihi total jumlah listrik")
-            minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
+            # minimum_Mwatt = int(input("masukkan jumlah minimum listrik yang di butuhkan : "))
             if minimum_Mwatt >= total_Mwatt:
                 continue
             else:

@@ -1,8 +1,7 @@
 import pygame
 import math
 import genetic_algorithm as ga
-# import generate_parent as GP
-# import genetic_gaalgorithm as GA
+
 pygame.init()
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -29,6 +28,12 @@ class ButtonImage(object):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
+
+# def draw_text(surface, message, y_cord, font_size, color):
+#     font = pygame.font.Font('projectai\assets\font.ttf', font_size)
+#     text = font.render(message, 1, color)
+#     text_rect = text.get_rect(center=(SCREEN_WIDTH/2, y_cord/10))
+#     surface.blit(text, text_rect)
 
 def startScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
@@ -84,7 +89,6 @@ def inputNMesinScreen(screen):
     font = pygame.font.Font(None, 32)
     # Scrolling background
     scroll = 0
-    
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
     run = True
     while run:
@@ -103,7 +107,6 @@ def inputNMesinScreen(screen):
                 if event.type == pygame.K_RETURN:
                     print(input_text)
                     input_text = "" 
-                    # ini apa |
                 elif event.key == pygame.K_BACKSPACE:
                     input_text = input_text[:-1]
                 else:
@@ -112,7 +115,8 @@ def inputNMesinScreen(screen):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                     if finish.is_clicked(event):
                         # print("klik")
-                        ga.main(int(input_text))
+                        ga.jumlah = int(input_text)
+                        ga.printJumlah()
                         inputWattMaintenanceScreen(screen)
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
@@ -124,11 +128,9 @@ def inputNMesinScreen(screen):
         # ga.main(int(input_text))
         pos = pygame.mouse.get_pos()
         if pos[0] >= 360 and pos[0] <= 560 and pos[1] >= 360 and pos[1] <= 420:
-            # ga.main(int(input_text)) hmm keknyadia harus dijalankan ulang pencet ctrl + alt + del pilih manager tugas atau task manager
             finish.hover(screen)
         else:
             finish.draw(screen)
-            # karna itu mainnya sabar 
 
         pygame.display.update()
 
@@ -157,6 +159,7 @@ def inputWattMaintenanceScreen(screen):
     font = pygame.font.Font(None, 32)
     # Scrolling background
     scroll = 0
+    counter = ga.jumlah
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
     run = True
     while run:
@@ -189,14 +192,31 @@ def inputWattMaintenanceScreen(screen):
                             text2 = text2[:-1]
                     else:
                         if active_input == input_box1:
-                            text1 += event.unicode
+                            if event.unicode.isnumeric():
+                                text1 += event.unicode
                         elif active_input == input_box2:
-                            text2 += event.unicode
+                            if event.unicode.isnumeric():
+                                text2 += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if input_box1.collidepoint(event.pos):
                     active_input = input_box1
                 elif input_box2.collidepoint(event.pos):
                     active_input = input_box2
+                elif finish.is_clicked:
+                    if counter > 0:
+                        # draw_text(screen, "Mesin ke- " , 200, 32, (255, 255, 255))
+                        if text1 == "" or text2 == "":
+                            print("kolom tidak boleh kosong")
+                        else:
+                            ga.min_maintenance.append(int(text2))
+                            ga.jumlah_watt.append(int(text1))
+                            # print(counter)
+                            counter-=1
+                            text1 = ""
+                            text2 = ""
+                            if counter == 0:
+                                print(ga.min_maintenance)
+                                inputNMinWattScreen(screen)
                 else:
                     active_input = None
 
@@ -234,11 +254,11 @@ def inputNMinWattScreen(screen):
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
     masukkanNWattDibutuhkan = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNWattDibutuhkan.png'), (700,100))
+    finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish2.png', 'projectai/assets/finish1.png')
     #Input box properties
     input_box = pygame.Rect(200, 200, 300, 40)
     input_text = ""
     font = pygame.font.Font(None, 32)
-    active = False
     # Scrolling background
     scroll = 0
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
@@ -265,6 +285,12 @@ def inputNMinWattScreen(screen):
                 else:
                     if event.unicode.isnumeric():  
                         input_text += event.unicode
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if finish.is_clicked(event):
+                    # print("klik")
+                    ga.min_watt = int(input_text)
+                    ga.main() 
+                    # inputWattMaintenanceScreen(screen)          
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
         # Render the input text
@@ -272,6 +298,12 @@ def inputNMinWattScreen(screen):
         screen.blit(text_surface, (input_box.x + 5, input_box.y + 10))
         
         screen.blit(masukkanNWattDibutuhkan, (200,100))
+        pos = pygame.mouse.get_pos()
+        if pos[0] >= 360 and pos[0] <= 560 and pos[1] >= 360 and pos[1] <= 420:
+            finish.hover(screen)
+        else:
+            finish.draw(screen)
+
         pygame.display.update()
 
 def mutasiScreen(screen):
@@ -400,5 +432,5 @@ def hasilScreen(screen):
 
         pygame.display.update()
 
-inputWattMaintenanceScreen(screen)
+inputNMesinScreen(screen)
 pygame.quit()

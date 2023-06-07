@@ -167,6 +167,7 @@ jumlah = 0
 min_maintenance =[]
 jumlah_watt = []
 min_watt = 0
+hasil_iterasi =[]
 
 def printJumlah():
     print("\n")
@@ -194,6 +195,7 @@ def main():
     parent2 = []
     unique = set(mesin2)
     total_Mwatt = 0
+
     # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
     point = {}
     for i in unique:
@@ -247,8 +249,11 @@ def main():
         while len(pop.heap) > 10:
             pop.kick()
         print("\niterasi ke ",i)
+        tmp_iterasi = []
         for j in pop.heap:
+            tmp_iterasi.append(j)
             print(j)
+        hasil_iterasi.append(tmp_iterasi)
 
 
     print("\nhasil akhir")
@@ -257,7 +262,6 @@ def main():
         val = pop.kick()
         if val[0] == 0:
             print(val)
-
     # mesin2_pt2 = copy.deepcopy(mesin2)
     # parent2 = generate_parent(mesin2_pt2)
     # print(parent2)

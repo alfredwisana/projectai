@@ -290,7 +290,7 @@ def inputNMinWattScreen(screen):
                     # print("klik")
                     ga.min_watt = int(input_text)
                     ga.main() 
-                    # inputWattMaintenanceScreen(screen)          
+                    mutasiScreen(screen)          
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
         # Render the input text
@@ -307,14 +307,17 @@ def inputNMinWattScreen(screen):
         pygame.display.update()
 
 def mutasiScreen(screen):
+    pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
-    TABLE_WIDTH, TABLE_HEIGHT = 890, 450
-    CELL_WIDTH, CELL_HEIGHT = 200, 50
+    table_width, table_height = 500, 150
+    data = []
+    # ga.self.heap = data
+    # CELL_WIDTH, CELL_HEIGHT = 200, 50
     rows_per_page = 5
-    scroll_speed = 30
+    # scroll_speed = 30
 
     pygame.init()
-    pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
+    
 
     # Initialize screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -326,27 +329,41 @@ def mutasiScreen(screen):
     bg_rect = bg.get_rect()
 
     # Calculate table position
-    table_x = (SCREEN_WIDTH - TABLE_WIDTH) // 2
-    table_y = (SCREEN_HEIGHT - TABLE_HEIGHT) // 2
+    table_x = 200
+    table_y = 200
 
     # Define table data
+    
     table_data = [
-        ["Name", "Age", "Score"],
-        ["John", "25", "80"],
-        ["Alice", "30", "95"],
-        ["Bob", "28", "70"],
-        # Add more rows as needed
+        ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
     ]
+    start = [
+        ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+    ]
+    for iterasi in ga.hasil_iterasi:
+        for item in iterasi:
+            tmp =[]
+            fp,ch = item
+            tmp.append(str(fp))
+            for x in ch:
+                tmp.append(str(inner_list) for inner_list in x)
+                print(tmp)
+            table_data.append(item)
 
+    row_per_page = 10
+    columns_per_page = 13
+
+    current_page = 0
+    total_pages = len(table_data) // row_per_page
     # Define table style
-    header_color = (100, 100, 100)
-    cell_color1 = (200, 200, 200)
-    cell_color2 = (220, 220, 220)
+    # header_color = (100, 100, 100)
+    # cell_color1 = (200, 200, 200)
+    # cell_color2 = (220, 220, 220)
     font = pygame.font.Font(None, 30)
 
     # Define scroll position and boundaries
-    scroll_y = 0
-    max_scroll_y = max(0, (len(table_data) - rows_per_page) * CELL_HEIGHT)
+    # scroll_y = 0
+    # max_scroll_y = max(0, (len(table_data) - rows_per_page) * CELL_HEIGHT)
 
     # Scrolling background
     scroll = 0
@@ -363,34 +380,30 @@ def mutasiScreen(screen):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                pygame.quit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    current_page -= 1
+                    if current_page < 0:
+                        current_page = 0
+                elif event.key == pygame.K_RIGHT:
+                    current_page += 1
+                    if current_page >= total_pages:
+                        current_page = total_pages - 1
+        start_row = current_page * row_per_page
+        end_row = start_row + row_per_page
+        current_data = table_data[start_row:end_row]
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 4:  # Scroll up
-                    scroll_y = max(0, scroll_y - scroll_speed)
-                elif event.button == 5:  # Scroll down
-                    scroll_y = min(max_scroll_y, scroll_y + scroll_speed)
+        pygame.draw.rect(screen, (255, 255, 255), (table_x, table_y, table_width, table_height))
 
-        start_row = scroll_y // CELL_HEIGHT
-        end_row = min(start_row + rows_per_page + 1, len(table_data))
-
-        for row in range(start_row, end_row):
-            for col in range(len(table_data[row])):
-                cell_x = table_x + col * CELL_WIDTH
-                cell_y = table_y + (row - start_row) * CELL_HEIGHT
-                cell_rect = pygame.Rect(cell_x, cell_y, CELL_WIDTH, CELL_HEIGHT)
-
-                # Draw cell background
-                # if row == 0:
-                #     color = header_color
-                # else:
-                #     color = cell_color1 if row % 2 == 0 else cell_color2
-                # pygame.draw.rect(screen, color, cell_rect)
-                
-            # Draw cell text
-            text_surface = font.render(table_data[row][col], True, (0, 0, 0))
-            text_rect = text_surface.get_rect(center=cell_rect.center)
-            screen.blit(text_surface, text_rect)
+        font = pygame.font.Font(None, 24)
+        for i, row in enumerate(current_data):
+            for j, value in enumerate(row):
+                text = font.render(str(value), True, (0, 0, 0))
+                text_rect = text.get_rect()
+                text_rect.center = (table_x + (j + 0.5) * (table_width / columns_per_page),
+                                    table_y + (i + 0.5) * (table_height / rows_per_page))
+                screen.blit(text, text_rect)
 
         pygame.display.update()
 

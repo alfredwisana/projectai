@@ -7,6 +7,7 @@ pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+
 class ButtonImage(object):
     def __init__(self, position, size, path, path2):
         self.pos = position
@@ -15,31 +16,37 @@ class ButtonImage(object):
         self.rect = pygame.Rect(position, size)
         screen.blit(self.img, position)
         self.size = size
+
     def draw(self, screen):
         screen.blit(self.img, self.pos)
+
     def is_hover(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
+
     def hover(self, screen):
         img2 = pygame.transform.scale(pygame.image.load(self.path2), self.size)
         screen.blit(img2, self.pos)
+
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 return self.rect.collidepoint(event.pos)
 
+
 # def draw_text(surface, message, y_cord, font_size, color):
-#     font = pygame.font.Font('projectai\assets\font.ttf', font_size)
+#     font = pygame.font.Font('.\assets\font.ttf', font_size)
 #     text = font.render(message, 1, color)
 #     text_rect = text.get_rect(center=(SCREEN_WIDTH/2, y_cord/10))
 #     surface.blit(text, text_rect)
+
 
 def startScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     # Load image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
@@ -55,15 +62,15 @@ def startScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        start = ButtonImage((400, 200), (400, 100), 'projectai/assets/start1.png', 'projectai/assets/start2.png')
-        
+        start = ButtonImage((400, 200), (400, 100), './assets/start1.png', './assets/start2.png')
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if start.is_clicked(event):
                     inputNMesinScreen(screen)
-        
+
         pos = pygame.mouse.get_pos()
         if pos[0] >= 50 and pos[0] <= 250 and pos[1] >= 150 and pos[1] <= 210:
             start.hover(screen)
@@ -71,19 +78,20 @@ def startScreen(screen):
             start.draw(screen)
 
         pygame.display.update
-        
+
+
 def inputNMesinScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     WHITE = (255, 255, 255)
     # Load image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
-    masukkanNMesin = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNMesin.png'), (700,100))
-    finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish2.png', 'projectai/assets/finish1.png')
-    #Input box properties
+    masukkanNMesin = pygame.transform.scale(pygame.image.load('./assets/masukkanNMesin.png'), (700, 100))
+    finish = ButtonImage((360, 360), (200, 60), './assets/finish2.png', './assets/finish1.png')
+    # Input box properties
     input_box = pygame.Rect(200, 200, 300, 40)
     input_text = ""
     font = pygame.font.Font(None, 32)
@@ -99,32 +107,32 @@ def inputNMesinScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
             elif event.type == pygame.KEYDOWN:
                 if event.type == pygame.K_RETURN:
                     print(input_text)
-                    input_text = "" 
+                    input_text = ""
                 elif event.key == pygame.K_BACKSPACE:
                     input_text = input_text[:-1]
                 else:
-                    if event.unicode.isnumeric():  
+                    if event.unicode.isnumeric():
                         input_text += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if finish.is_clicked(event):
-                        # print("klik")
-                        ga.jumlah = int(input_text)
-                        ga.printJumlah()
-                        inputWattMaintenanceScreen(screen)
+                if finish.is_clicked(event):
+                    # print("klik")
+                    ga.jumlah = int(input_text)
+                    # ga.printJumlah()
+                    inputWattMaintenanceScreen(screen)
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
         # Render the input text
         text_surface = font.render(input_text, True, WHITE)
         screen.blit(text_surface, (input_box.x + 5, input_box.y + 10))
 
-        screen.blit(masukkanNMesin, (200,100))
+        screen.blit(masukkanNMesin, (200, 100))
         # ga.main(int(input_text))
         pos = pygame.mouse.get_pos()
         if pos[0] >= 360 and pos[0] <= 560 and pos[1] >= 360 and pos[1] <= 420:
@@ -134,22 +142,23 @@ def inputNMesinScreen(screen):
 
         pygame.display.update()
 
+
 def inputWattMaintenanceScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     WHITE = (255, 255, 255)
     # Load image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
 
     WHITE = (255, 255, 255)
-    BLACK = (0,0,0)
+    BLACK = (0, 0, 0)
     FONT = pygame.font.Font(None, 32)
-    #Input box properties 
-    input_box1 = pygame.Rect(310, SCREEN_HEIGHT/4, 300, 40) #kotak pertama
-    input_box2 = pygame.Rect(310, SCREEN_HEIGHT/2, 300, 40) #kotak kedua
+    # Input box properties
+    input_box1 = pygame.Rect(310, SCREEN_HEIGHT / 4, 300, 40)  # kotak pertama
+    input_box2 = pygame.Rect(310, SCREEN_HEIGHT / 2, 300, 40)  # kotak kedua
 
     text1 = ""
     text2 = ""
@@ -170,10 +179,12 @@ def inputWattMaintenanceScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish1.png', 'projectai/assets/finish2.png')
-        inputNMesin = pygame.transform.scale(pygame.image.load('projectai/assets/inputFrame.png'), (550,400))
-        masukkanNWattMesin = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNWattMesin.png'), (500,80))
-        masukkanNMinMaintenance = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNMinMaintenance.png'), (500,80))
+        finish = ButtonImage((360, 360), (200, 60), './assets/finish1.png', './assets/finish2.png')
+        inputNMesin = pygame.transform.scale(pygame.image.load('./assets/inputFrame.png'), (550, 400))
+        masukkanNWattMesin = pygame.transform.scale(pygame.image.load('./assets/masukkanNWattMesin.png'),
+                                                    (500, 80))
+        masukkanNMinMaintenance = pygame.transform.scale(
+            pygame.image.load('./assets/masukkanNMinMaintenance.png'), (500, 80))
         # inputFrame = ButtonImage((190, 80), (550, 400), 'assets/inputFrame1.png', 'assets/inputFrame2.png')
 
         for event in pygame.event.get():
@@ -211,7 +222,7 @@ def inputWattMaintenanceScreen(screen):
                             ga.min_maintenance.append(int(text2))
                             ga.jumlah_watt.append(int(text1))
                             # print(counter)
-                            counter-=1
+                            counter -= 1
                             text1 = ""
                             text2 = ""
                             if counter == 0:
@@ -219,7 +230,6 @@ def inputWattMaintenanceScreen(screen):
                                 inputNMinWattScreen(screen)
                 else:
                     active_input = None
-
 
         pygame.draw.rect(screen, WHITE, input_box1, 2)
         pygame.draw.rect(screen, WHITE, input_box2, 2)
@@ -229,7 +239,7 @@ def inputWattMaintenanceScreen(screen):
 
         screen.blit(input_text1, (input_box1.x + 5, input_box1.y + 5))
         screen.blit(input_text2, (input_box2.x + 5, input_box2.y + 5))
-            
+
         # pygame.display.flip()
 
         pos = pygame.mouse.get_pos()
@@ -238,24 +248,26 @@ def inputWattMaintenanceScreen(screen):
             finish.hover(screen)
         else:
             finish.draw(screen)
-        screen.blit(inputNMesin, (190,80))
-        screen.blit(masukkanNWattMesin, (220,80))
-        screen.blit(masukkanNMinMaintenance, (220,212))
-        
+        screen.blit(inputNMesin, (190, 80))
+        screen.blit(masukkanNWattMesin, (220, 80))
+        screen.blit(masukkanNMinMaintenance, (220, 212))
+
         pygame.display.update()
+
 
 def inputNMinWattScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     WHITE = (255, 255, 255)
     # Load image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
-    masukkanNWattDibutuhkan = pygame.transform.scale(pygame.image.load('projectai/assets/masukkanNWattDibutuhkan.png'), (700,100))
-    finish = ButtonImage((360, 360), (200, 60), 'projectai/assets/finish2.png', 'projectai/assets/finish1.png')
-    #Input box properties
+    masukkanNWattDibutuhkan = pygame.transform.scale(pygame.image.load('./assets/masukkanNWattDibutuhkan.png'),
+                                                     (700, 100))
+    finish = ButtonImage((360, 360), (200, 60), './assets/finish2.png', './assets/finish1.png')
+    # Input box properties
     input_box = pygame.Rect(200, 200, 300, 40)
     input_text = ""
     font = pygame.font.Font(None, 32)
@@ -271,7 +283,7 @@ def inputNMinWattScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -281,23 +293,23 @@ def inputNMinWattScreen(screen):
                     input_text = ""
                 elif event.key == pygame.K_BACKSPACE:
                     input_text = input_text[:-1]
-                #biar cuma bisa input angka
+                # biar cuma bisa input angka
                 else:
-                    if event.unicode.isnumeric():  
+                    if event.unicode.isnumeric():
                         input_text += event.unicode
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if finish.is_clicked(event):
                     # print("klik")
                     ga.min_watt = int(input_text)
-                    ga.main() 
-                    # inputWattMaintenanceScreen(screen)          
-        # Draw the input box
+                    ga.main()
+                    mutasiScreen(screen)
+                    # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
         # Render the input text
         text_surface = font.render(input_text, True, WHITE)
         screen.blit(text_surface, (input_box.x + 5, input_box.y + 10))
-        
-        screen.blit(masukkanNWattDibutuhkan, (200,100))
+
+        screen.blit(masukkanNWattDibutuhkan, (200, 100))
         pos = pygame.mouse.get_pos()
         if pos[0] >= 360 and pos[0] <= 560 and pos[1] >= 360 and pos[1] <= 420:
             finish.hover(screen)
@@ -306,24 +318,24 @@ def inputNMinWattScreen(screen):
 
         pygame.display.update()
 
+
 def mutasiScreen(screen):
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     table_width, table_height = 500, 150
     data = []
-    ga.self.heap = data
+    # ga.self.heap = data
     # CELL_WIDTH, CELL_HEIGHT = 200, 50
     rows_per_page = 5
     # scroll_speed = 30
 
     pygame.init()
-    
-    
+
     # Initialize screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
     # Load background image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
@@ -333,16 +345,25 @@ def mutasiScreen(screen):
     table_y = 200
 
     # Define table data
+
     table_data = [
         ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
-        ["John", "25", "80"],
-        ["Alice", "30", "95"],
-        ["Bob", "28", "70"],
-        # Add more rows as needed
     ]
+    start = [
+        ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+    ]
+    for iterasi in ga.hasil_iterasi:
+        for item in iterasi:
+            tmp = []
+            fp, ch = item
+            tmp.append(str(fp))
+            for x in ch:
+                tmp.append(str(inner_list) for inner_list in x)
+                print(tmp)
+            table_data.append(item)
 
-    row_per_page = 2
-    columns_per_page = 3
+    row_per_page = 10
+    columns_per_page = 13
 
     current_page = 0
     total_pages = len(table_data) // row_per_page
@@ -398,11 +419,12 @@ def mutasiScreen(screen):
 
         pygame.display.update()
 
+
 def hasilScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     # Load image
-    bg = pygame.image.load('projectai/assets/bg.png')
+    bg = pygame.image.load('./assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
@@ -418,8 +440,8 @@ def hasilScreen(screen):
             scroll -= 1
             if abs(scroll) > bg_width:
                 scroll = 0
-        start = ButtonImage((400, 200), (400, 100), 'projectai/assets/start1.png', 'projectai/assets/start2.png')
-        
+        start = ButtonImage((400, 200), (400, 100), './assets/start1.png', './assets/start2.png')
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -435,6 +457,7 @@ def hasilScreen(screen):
             start.draw(screen)
 
         pygame.display.update()
+
 
 inputNMesinScreen(screen)
 pygame.quit()

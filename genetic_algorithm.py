@@ -201,8 +201,6 @@ jumlah_watt = []
 hasil_iterasi = []
 total_watt=0
 
-
-
 # driver code
 def main():
     mesin2=[]
@@ -227,7 +225,6 @@ def main():
     parent2 = []
     unique = set(mesin2)
     total_Mwatt = 0
-
 
     # point = {1:20, 2:15, 3:35, 4:40, 5:15, 6:15, 7:10}
     point = {}
@@ -300,7 +297,6 @@ def main():
         val = pop.kick()
         if val[0] == 0:
             print(val)
-
     # mesin2_pt2 = copy.deepcopy(mesin2)
     # parent2 = generate_parent(mesin2_pt2)
     # print(parent2)

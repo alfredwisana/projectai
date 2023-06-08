@@ -128,7 +128,7 @@ def inputNMesinScreen(screen):
                     if submit.is_clicked(event):
                         # print("klik")
                         ga.jumlah = int(input_text)
-                        if ga.jumlah==1:
+                        if ga.jumlah<2:
                             inputNMesinScreen()
                         # ga.printJumlah()
                         inputWattMaintenanceScreen(screen)

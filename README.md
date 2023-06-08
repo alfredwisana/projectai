@@ -17,4 +17,5 @@ Buat populasi (Jasson)
 Proyek ini membuat program penjadwalan perbaikan mesin dengan algoritma "genetic algorithm", dengan jumlan mesin sesuai dengan inputan user
 jumlah listrik yang dihasilkan per mesin juga sesuai dengan inputan user
 
-program GA nya yang di file genetic_algorithm.py
+program GA nya yang di file genetic_algorithm.py\
+file genetic_algo2.py adalah program yang dijalankan di terminal

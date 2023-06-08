@@ -116,7 +116,7 @@ def inputNMesinScreen(screen):
                     if finish.is_clicked(event):
                         # print("klik")
                         ga.jumlah = int(input_text)
-                        ga.printJumlah()
+                        # ga.printJumlah()
                         inputWattMaintenanceScreen(screen)
         # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
@@ -318,7 +318,6 @@ def mutasiScreen(screen):
 
     pygame.init()
     
-
     # Initialize screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 

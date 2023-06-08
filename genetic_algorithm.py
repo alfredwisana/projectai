@@ -164,16 +164,10 @@ def roulette_wheel_selection(pop):
 
 # driver code
 jumlah = 0
-min_maintenance =[]
-jumlah_watt = []
+min_maintenance = []
 min_watt = 0
-hasil_iterasi =[]
-
-def printJumlah():
-    print("\n")
-    print(jumlah)
-    print("\n")
-
+jumlah_watt = []
+hasil_iterasi = []
 def main():
     mesin2=[]
     jumlah_mesin = jumlah

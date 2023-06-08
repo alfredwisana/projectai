@@ -318,6 +318,10 @@ def inputNMinWattScreen(screen):
                         print("Jumlah listrik melebihi kapasitas")
                         inputNMinWattScreen(screen)
                     ga.main()
+                    # if len(ga.hasil_akhir) != 0 :
+                    #     hasilScreen(screen)
+                    # else:
+                    #     mutasiScreen(screen)
                     mutasiScreen(screen)
                     # Draw the input box
         pygame.draw.rect(screen, WHITE, input_box, 2)
@@ -340,7 +344,7 @@ def mutasiScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     table_width, table_height = 500, 290
     column_widths = [100] + [50] * 12
-    rows_per_page = 5
+    # rows_per_page = 5
 
     pygame.init()
     # Initialize screen
@@ -360,17 +364,26 @@ def mutasiScreen(screen):
     table_data = [
         ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
     ]
+   
     for iterasi in ga.hasil_iterasi:
         for item in iterasi:
             tmp = []
             fp, ch = item
             tmp.append(str(fp))
             for x in ch:
-                tmp.append(str(inner_list) for inner_list in x)
-                print(tmp)
-            table_data.append(item)
+                temp_str = ""
+                len_x = 0
+                for y in x:
+                    temp_str+= str(y)
+                    if len_x<len(x)-1:
+                        temp_str +=","
+                    len_x+=1
+                tmp.append(temp_str)
+                # print(tmp)
+            table_data.append(tmp)
+        table_data.append(table_data[0])
 
-    row_per_page = 10
+    row_per_page = 11
     columns_per_page = 13
 
     current_page = 0
@@ -399,9 +412,9 @@ def mutasiScreen(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     if finish.is_clicked(event):
-            #         hasilScreen(screen)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if finish.is_clicked(event):
+                    hasilScreen(screen)
 
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -424,7 +437,7 @@ def mutasiScreen(screen):
                 text = font.render(str(value), True, (0, 0, 0))
                 text_rect = text.get_rect()
                 text_rect.center = (table_x + (j + 0.5) * (table_width / columns_per_page),
-                                    table_y + (i + 0.5) * (table_height / rows_per_page))
+                                    table_y + (i + 0.5) * (table_height / row_per_page))
                 screen.blit(text, text_rect)
        
         pos = pygame.mouse.get_pos()
@@ -440,10 +453,35 @@ def hasilScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     # Load image
+    table_width, table_height = 500, 290
     bg = pygame.image.load('projectai/assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
+    table_x = 100
+    table_y = 100
+    table_data = [
+        ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+    ]
+    for iterasi in ga.hasil_akhir:
+            tmp = []
+            fp, ch = iterasi
+            tmp.append(str(fp))
+            for x in ch:
+                temp_str = ""
+                len_x = 0
+                for y in x:
+                    temp_str+= str(y)
+                    if len_x<len(x)-1:
+                        temp_str +=","
+                tmp.append(temp_str)
+                print(tmp)
+            table_data.append(tmp)
+
+    row_per_page = 11
+    columns_per_page = 13
+
+    current_page = 0
     # Scrolling background
     scroll = 0
     tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
@@ -457,14 +495,28 @@ def hasilScreen(screen):
             if abs(scroll) > bg_width:
                 scroll = 0
         finish = ButtonImage((795, 20), (150, 52), 'projectai/assets/finish1.png', 'projectai/assets/finish2.png')
-
+        if current_page == 0:
+            draw_text(screen, "Hasil Akhir", 800, 30, (WHITE))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            # if event.type == pygame.MOUSEBUTTONDOWN:
-            #     if finish.is_clicked(event):
-            #         startScreen(screen)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if finish.is_clicked(event):
+                    startScreen(screen)
+        start_row = current_page * row_per_page
+        end_row = start_row + row_per_page
+        current_data = table_data[start_row:end_row]
 
+        pygame.draw.rect(screen, (255, 255, 255), (table_x, table_y, table_width, table_height))
+
+        font = pygame.font.Font(None, 24)
+        for i, row in enumerate(current_data):
+            for j, value in enumerate(row):
+                text = font.render(str(value), True, (0, 0, 0))
+                text_rect = text.get_rect()
+                text_rect.center = (table_x + (j + 0.5) * (table_width / columns_per_page),
+                                    table_y + (i + 0.5) * (table_height / row_per_page))
+                screen.blit(text, text_rect)
         pos = pygame.mouse.get_pos()
 
         if pos[0] >= 795 and pos[0] <= 945 and pos[1] >= 20 and pos[1] <= 72:
@@ -475,6 +527,6 @@ def hasilScreen(screen):
         pygame.display.update()
 
 
-# startScreen(screen)
-mutasiScreen(screen)
+startScreen(screen)
+# mutasiScreen(screen)
 pygame.quit()

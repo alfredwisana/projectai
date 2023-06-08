@@ -200,7 +200,7 @@ min_watt = 0
 jumlah_watt = []
 hasil_iterasi = []
 total_watt=0
-
+hasil_akhir=[]
 # driver code
 def main():
     mesin2=[]
@@ -292,11 +292,13 @@ def main():
         hasil_iterasi.append(tmp_iterasi)
 
     print("\nhasil akhir")
-
+   
     while pop.heap:
         val = pop.kick()
         if val[0] == 0:
             print(val)
+            hasil_akhir.append(val)
+
     # mesin2_pt2 = copy.deepcopy(mesin2)
     # parent2 = generate_parent(mesin2_pt2)
     # print(parent2)

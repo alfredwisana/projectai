@@ -174,15 +174,19 @@ class population:
 def roulette_wheel_selection(pop):
     total_fitness = 0
     for i in pop.heap:
-        total_fitness+=i[0]
+        if i[0] > 0:
+            total_fitness+=1/i[0]
+        else:
+            total_fitness+=1
 
-
-    r = random.randint(0,total_fitness)
-
+    r = random.uniform(0,total_fitness)
 
     cumulative_fitness = 0
     for i in pop.heap:
-        cumulative_fitness += i[0]
+        if i[0] > 0:
+            cumulative_fitness += 1/i[0]
+        else:
+            cumulative_fitness += 1
         if r <= cumulative_fitness:
             pop.heap.remove(i)
             return i

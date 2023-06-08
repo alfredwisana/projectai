@@ -303,8 +303,8 @@ def inputNMinWattScreen(screen):
                     ga.min_watt = int(input_text)
                     ga.hitung_total()
                     if ga.min_watt >= ga.total_watt:
-                        print(ga.min_watt)
-                        print(ga.total_watt)
+                        # print(ga.min_watt)
+                        print("Jumlah listrik minimal yang dihasilkan : %d "%ga.total_watt)
                         print("Jumlah listrik melebihi kapasitas")
                         inputNMinWattScreen(screen)
                     ga.main()

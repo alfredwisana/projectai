@@ -5,6 +5,7 @@ import heapq_max
 
 
 #generate chromosome ultimate super mega no limit terserah panjang brp
+#fungsi generate parent untuk genetic algorithm
 def generate_parent(mesin):
     jmlh_maintenance = len(mesin)
     mesinpt2 = copy.deepcopy(mesin)
@@ -23,7 +24,7 @@ def generate_parent(mesin):
                     counter+=1
             first_half[counter%6].append(gen)
 
-
+        # jika jumlah total perbaikan mesin adalah <6 maka terdapat bulan tanpa perbaikan mesin
         else :
             if jmlh_maintenance<6:
                 if bool:
@@ -67,7 +68,7 @@ def generate_parent(mesin):
 
     return first_half
 
-
+#fungsi untuk menghitung fitness poin
 def count_fitness_point(chromosome,point,max_Mwatt_off):
     fitness_point = 0
     for i in chromosome:
@@ -79,6 +80,7 @@ def count_fitness_point(chromosome,point,max_Mwatt_off):
     return fitness_point
 
 
+# fungsi untuk melakukan crossover dengan pembagian crossover 50% (50:50)
 def crossover(parent1,parent2):
     copy_parent1 = copy.deepcopy(parent1)
     copy_parent2 = copy.deepcopy(parent2)
@@ -97,6 +99,7 @@ def crossover(parent1,parent2):
 #         return chromosome
 
 
+# fungsi untuk melakukan mutasi chromosome
 def mutation(chromosome):
     chromosome_pt1 = copy.deepcopy(chromosome[0:6])
     chromosome_pt2 = copy.deepcopy(chromosome[6:12])
@@ -145,6 +148,7 @@ def mutation(chromosome):
     return chromosome_pt1
 
 
+# populasi digunakan untuk menyimpan chromosome yang ada
 class population:
     def __init__(self):
         self.heap = []
@@ -166,6 +170,7 @@ class population:
     #     return val[0]
 
 
+# fungsi seleksi dengan metode roulette
 def roulette_wheel_selection(pop):
     total_fitness = 0
     for i in pop.heap:
@@ -182,8 +187,13 @@ def roulette_wheel_selection(pop):
             pop.heap.remove(i)
             return i
 
+# fungsi untuk menghitung jumlah listrik total dari generator
+def hitung_total():
+    global  total_watt
+    for i in jumlah_watt:
+        total_watt+=i
 
-# driver code
+# variable
 jumlah = 0
 min_maintenance = []
 min_watt = 0
@@ -191,11 +201,9 @@ jumlah_watt = []
 hasil_iterasi = []
 total_watt=0
 
-def hitung_total():
-    global  total_watt
-    for i in jumlah_watt:
-        total_watt+=i
 
+
+# driver code
 def main():
     mesin2=[]
     jumlah_mesin = jumlah
@@ -286,16 +294,13 @@ def main():
             print(j)
         hasil_iterasi.append(tmp_iterasi)
 
-
-
-
     print("\nhasil akhir")
-
 
     while pop.heap:
         val = pop.kick()
         if val[0] == 0:
             print(val)
+
     # mesin2_pt2 = copy.deepcopy(mesin2)
     # parent2 = generate_parent(mesin2_pt2)
     # print(parent2)

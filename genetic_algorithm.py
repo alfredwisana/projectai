@@ -189,6 +189,12 @@ min_maintenance = []
 min_watt = 0
 jumlah_watt = []
 hasil_iterasi = []
+total_watt=0
+
+def hitung_total():
+    global  total_watt
+    for i in jumlah_watt:
+        total_watt+=i
 
 def main():
     mesin2=[]

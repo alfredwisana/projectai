@@ -226,9 +226,13 @@ def inputWattMaintenanceScreen(screen):
                 elif input_box2.collidepoint(event.pos):
                     active_input = input_box2
                 elif submit.is_clicked:
+                    isiText2 = int(text2)
                     if counter > 0:
                         if text1 == "" or text2 == "":
                             print("kolom tidak boleh kosong")
+                        elif isiText2 > 5:
+                            print("jumlah maintenance tidak boleh lebih dari 7")
+                            # inputWattMaintenanceScreen(screen)
                         else:
                             ga.min_maintenance.append(int(text2))
                             ga.jumlah_watt.append(int(text1))
@@ -344,7 +348,7 @@ def inputNMinWattScreen(screen):
 def mutasiScreen(screen):
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
-    table_width, table_height = 500, 290
+    table_width, table_height = 910, 430
     column_widths = [100] + [50] * 12
     # rows_per_page = 5
 
@@ -359,8 +363,8 @@ def mutasiScreen(screen):
     bg_rect = bg.get_rect()
 
     # Calculate table position
-    table_x = 100
-    table_y = 100
+    table_x = 20
+    table_y = 90
 
     # Define table data
     table_data = [
@@ -455,13 +459,13 @@ def hasilScreen(screen):
     SCREEN_WIDTH, SCREEN_HEIGHT = 960, 540
     pygame.display.set_caption('PROJECT KECERDASAN BUATAN')
     # Load image
-    table_width, table_height = 500, 290
+    table_width, table_height = 910, 430
     bg = pygame.image.load('projectai/assets/bg.png')
     bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     bg_width = bg.get_width()
     bg_rect = bg.get_rect()
-    table_x = 100
-    table_y = 100
+    table_x = 20
+    table_y = 90
     table_data = [
         ["FP", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
     ]
@@ -501,7 +505,7 @@ def hasilScreen(screen):
             draw_text(screen, "Hasil Akhir", 800, 30, (WHITE))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if finish.is_clicked(event):
                     startScreen(screen)

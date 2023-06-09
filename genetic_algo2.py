@@ -175,6 +175,16 @@ if __name__ == '__main__':
     jumlah_mesin=int(input("Masukan Jumlah Mesin : "))
     for i in range (jumlah_mesin):
         jumlah_maintenance=int(input("masukkan Berapa kali mesin  " + str(i+1) + " diperbaiki : "))
+        check=False
+
+        if jumlah_maintenance > 5:
+            while check == False:
+                print("Jumlah perbaikan tidak boleh lebih dari 5")
+                jumlah_maintenance = int(input("masukkan Berapa kali mesin  " + str(i + 1) + " diperbaiki : "))
+                if jumlah_maintenance < 5:
+                    check = True
+
+
         for j in range (jumlah_maintenance):
             mesin2.append(i+1)
 

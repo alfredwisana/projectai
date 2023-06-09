@@ -133,7 +133,7 @@ def mutation(chromosome):
 class population:
     def __init__(self):
         self.heap = []
-        heapq_max.               heapify_max(self.heap)
+        heapq_max.heapify_max(self.heap)
 
     def add(self,fitness_point,chromosome):
         data = (fitness_point,chromosome)
